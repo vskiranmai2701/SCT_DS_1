@@ -1,0 +1,119 @@
+##Importing necessary libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+df=pd.read_excel("/content/Task 1.xlsx")
+##Checking top 5 rows data
+df.head(5)
+df.tail(5)
+##Checking the column of the dataset
+df.columns
+##Some information about the dataset
+df.info()
+df.describe()
+##Checking for duplicate values
+df.duplicated().sum()
+##Checking for missing values
+df.isna().sum()
+## Checking unique values for columns
+print(df['Country Name'].unique())
+print("\n Total no of unique countries",df['Country Name'].nunique())
+print(df['Country Code'].unique())
+print("\n Total no of unique countrie code",df['Country Code'].nunique())
+print(df.columns)
+df.columns = df.columns.str.strip()
+## Dropping unnecessary columns
+df.drop(['Indicator Name','Country Name'],axis=1,inplace=True)
+## Extraction of top 10 countries with respect to total population
+##Filter data for total population
+total_population_data = df[df['Indicator Code']=='SP.POP.TOTL']
+
+##Sort the data based on the total population for 2022
+total_population_sorted = total_population_data.sort_values(by='2022',ascending = False)
+
+##Sort the top 10 countries with the highest total population for 2022
+total_top_ten_countries = total_population_sorted.head(10)
+
+print("Top 10 countries with respect to total population")
+print(total_top_ten_countries[['Country Code']])
+# Bar plot for top ten countries of total population in year 2022
+plt.figure(figsize=(10, 6))
+sns.barplot(x="2022", y="Country Code", data=total_top_ten_countries, palette="coolwarm")
+plt.title("Top 10 Countries by Total Population in 2022", fontsize=14)
+plt.xlabel("Total Population", fontsize=12)
+plt.ylabel("Country Code", fontsize=12)
+plt.show()
+
+# Bar plot for top ten countries of total population in year 2016
+plt.figure(figsize=(10, 6))
+sns.barplot(x="2016", y="Country Code", data=total_top_ten_countries, palette="coolwarm")
+plt.title("Top 10 Countries by Total Population in 2016", fontsize=14)
+plt.xlabel("Total Population", fontsize=12)
+plt.ylabel("Country Code", fontsize=12)
+plt.show()
+## Extraction of bottom 10 countries with respect to total population
+##Sort the data based on the total population for 2022
+total_population_sorted = total_population_data.sort_values(by='2022',ascending = False)
+
+##Sort the top 10 countries with the highest total population for 2022
+total_bottom_ten_countries = total_population_sorted.tail(10)
+
+print("Bottom 10 countries with respect to total population")
+print(total_bottom_ten_countries[['Country Code']])
+# Bar plot for bottom ten countries of total population in year 2022
+plt.figure(figsize=(10, 6))
+sns.barplot(x="2022", y="Country Code", data=total_bottom_ten_countries, palette="coolwarm")
+plt.title("Bottom 10 Countries by Total Population in 2022", fontsize=14)
+plt.xlabel("Total Population", fontsize=12)
+plt.ylabel("Country Code", fontsize=12)
+plt.show()
+
+# Bar plot for bottom ten countries of total population in year 2016
+plt.figure(figsize=(10, 6))
+sns.barplot(x="2016", y="Country Code", data=total_bottom_ten_countries, palette="coolwarm")
+plt.title("Bottom 10 Countries by Total Population in 2016", fontsize=14)
+plt.xlabel("Total Population", fontsize=12)
+plt.ylabel("Country Code", fontsize=12)
+plt.show()
+# Assuming 'df' is your DataFrame and '2022' and '2016' are columns with population data
+sorted_data = df.sort_values(by='2022', ascending=False)
+top_ten_countries = sorted_data.head(10)
+ ## Select top 10 countries with highest population
+top_ten_countries = sorted_data.head(10)
+
+# Plot
+plt.figure(figsize=(12, 6))
+
+# Plot for 2022 data
+sns.barplot(x='Country Code', y='2022', data=top_ten_countries, color='red', label='2022 Population')
+
+# Plot for 2016 data, stacked on top of 2022 data
+sns.barplot(x='Country Code', y='2016', data=top_ten_countries, bottom=top_ten_countries['2022'], color='green', label='2016 Population')
+
+plt.xlabel("Country Code")
+plt.ylabel("Population")
+plt.legend()
+plt.xticks(rotation=45, ha='right')
+plt.title("Population of Top 10 Countries in 2016 and 2022")
+plt.show()
+##Bottom 10 countries population
+sorted_data = df.sort_values(by='2022', ascending=False)
+bottom_ten_countries = sorted_data.tail(10)
+bottom_ten_countries = sorted_data.head(10)
+
+# Plot
+plt.figure(figsize=(12, 6))
+
+# Plot for 2022 data
+sns.barplot(x='Country Code', y='2022', data=bottom_ten_countries, color='red', label='2022 Population')
+
+# Plot for 2016 data, stacked on top of 2022 data
+sns.barplot(x='Country Code', y='2016', data=bottom_ten_countries, bottom=top_ten_countries['2022'], color='green', label='2016 Population')
+
+plt.xlabel("Country Code")
+plt.ylabel("Population")
+plt.legend()
+plt.xticks(rotation=45, ha='right')
+plt.title("Population of Bottom 10 Countries in 2016 and 2022")
+plt.show()
